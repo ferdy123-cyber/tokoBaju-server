@@ -17,6 +17,9 @@ Product.init(
     description: {
       type: DataTypes.STRING,
     },
+    chategory: {
+      type: DataTypes.STRING,
+    },
     stock: {
       type: DataTypes.INTEGER(10),
       allowNull: false,

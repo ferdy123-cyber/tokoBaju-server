@@ -1,15 +1,25 @@
 const { model } = require("../database/connection");
-const { Product, Size, Image } = require("../database/models");
+const { Product, Size, Image, Order } = require("../database/models");
 
 const addProduct = async (req, res, next) => {
   try {
     const { user } = req;
-    const { name, description, stock, price, discount, sex, color } = req.body;
+    const {
+      name,
+      description,
+      chategory,
+      stock,
+      price,
+      discount,
+      sex,
+      color,
+    } = req.body;
 
     if (user.role === "admin") {
       const product = await Product.create({
         name,
         description,
+        chategory,
         stock,
         price,
         discount,
@@ -50,6 +60,7 @@ const allProduct = async (req, res, next) => {
         },
       ],
     });
+
     return res.status(201).json({
       status: "success",
       code: 201,

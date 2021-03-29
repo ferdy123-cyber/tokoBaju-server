@@ -1,54 +1,31 @@
 "use strict";
 
+const sequelize = require("sequelize");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Products", {
+    return queryInterface.createTable("Comments", {
       id: {
         type: Sequelize.UUID,
         default: Sequelize.UUIDV4,
         primaryKey: true,
       },
-      name: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      chategory: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-      },
-      stock: {
-        type: Sequelize.INTEGER(10),
-        allowNull: false,
-      },
-      price: {
-        type: Sequelize.FLOAT(10),
-        foreignKey: true,
-        allowNull: false,
-      },
-      discount: {
-        type: Sequelize.FLOAT(10),
-        foreignKey: true,
-        allowNull: false,
-      },
-      sex: {
-        type: Sequelize.STRING(25),
-        allowNull: false,
-      },
-      color: {
-        type: Sequelize.STRING(25),
-        allowNull: false,
-      },
-      user_id: {
+      product_id: {
         type: Sequelize.UUID,
         references: {
-          model: "Users",
+          model: "Products",
           key: "id",
         },
         onDeleted: "CASCADE",
         onUpdate: "CASCADE",
+      },
+      comment: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      name: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -71,7 +48,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Products");
+    return queryInterface.dropTable("Comments");
     /**
      * Add reverting commands here.
      *

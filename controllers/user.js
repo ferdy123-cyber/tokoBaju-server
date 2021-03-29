@@ -84,11 +84,7 @@ const login = async (req, res, next) => {
 const getUser = async (req, res, next) => {
   const { user } = req;
 
-  const detailUser = await User.findOne({
-    where: {
-      id: user.id,
-    },
-  });
+  const detailUser = await User.findAll();
 
   return res.status(201).send({
     data: detailUser,

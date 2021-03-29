@@ -24,6 +24,7 @@ const addTransaction = async (req, res, next) => {
 const findById = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { user } = req;
 
     const orders = await Order.findAll({
       where: {
@@ -33,6 +34,10 @@ const findById = async (req, res, next) => {
 
     const totalPay = orders
       .map((e) => e.product_discount)
+      .reduce((a, b) => a + b, 0);
+
+    const totalQty = orders
+      .map((e) => e.product_qty)
       .reduce((a, b) => a + b, 0);
 
     await Transaction.update(
@@ -59,7 +64,8 @@ const findById = async (req, res, next) => {
       status: "success",
       code: 201,
       data: transaction,
-      tot: totalPay,
+      totalPay: totalPay,
+      totalQty: totalQty,
     });
   } catch (error) {
     return next(error);
@@ -120,11 +126,11 @@ const deleTransaction = async (req, res, next) => {
 
 const editTransaction = async (req, res, next) => {
   try {
-    const { id } = req.body;
+    const { id, status } = req.body;
 
     await Transaction.update(
       {
-        status: "Paid",
+        status,
       },
       {
         where: {
@@ -151,7 +157,14 @@ const allTransaction = async (req, res, next) => {
   try {
     const { user } = req;
     if (user.role === "admin") {
-      const all = await Transaction.findAll();
+      const all = await Transaction.findAll({
+        include: [
+          {
+            model: Order,
+            as: "orders",
+          },
+        ],
+      });
       return res.status(201).json({
         status: "success",
         code: 201,

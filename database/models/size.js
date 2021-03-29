@@ -1,3 +1,5 @@
+const { INTEGER } = require("sequelize");
+const { FLOAT } = require("sequelize");
 const { Model, DataTypes } = require("sequelize");
 const connection = require("../connection");
 
@@ -12,6 +14,10 @@ Size.init(
     },
     size: {
       type: DataTypes.STRING(25),
+      allowNull: false,
+    },
+    percentage_price: {
+      type: FLOAT(25),
       allowNull: false,
     },
   },
