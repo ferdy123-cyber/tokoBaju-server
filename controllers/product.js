@@ -1,5 +1,5 @@
 const { model } = require("../database/connection");
-const { Product, Size, Image, Order } = require("../database/models");
+const { Product, Size, Image, Order, Review } = require("../database/models");
 
 const addProduct = async (req, res, next) => {
   try {
@@ -58,6 +58,10 @@ const allProduct = async (req, res, next) => {
           model: Image,
           as: "images",
         },
+        {
+          model: Review,
+          as: "reviews",
+        },
       ],
     });
 
@@ -85,6 +89,10 @@ const findById = async (req, res, next) => {
         {
           model: Image,
           as: "images",
+        },
+        {
+          model: Review,
+          as: "reviews",
         },
       ],
     });

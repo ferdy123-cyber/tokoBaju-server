@@ -4,11 +4,20 @@ const sequelize = require("sequelize");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Comments", {
+    return queryInterface.createTable("Reviews", {
       id: {
         type: Sequelize.UUID,
         default: Sequelize.UUIDV4,
         primaryKey: true,
+      },
+      user_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onDeleted: "CASCADE",
+        onUpdate: "CASCADE",
       },
       product_id: {
         type: Sequelize.UUID,
@@ -23,7 +32,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      name: {
+      user_name: {
         type: Sequelize.STRING(50),
         allowNull: false,
       },
@@ -48,7 +57,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Comments");
+    return queryInterface.dropTable("Reviews");
     /**
      * Add reverting commands here.
      *

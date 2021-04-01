@@ -5,6 +5,9 @@ const Order = require("./order");
 const Image = require("./image");
 const Size = require("./size");
 const Transaction = require("./transaction");
+const Review = require("./review");
+const Chat = require("./chat");
+const Listchat = require("./listchat");
 
 User.hasMany(Product, {
   as: "products",
@@ -39,6 +42,21 @@ Order.belongsTo(User, {
 User.hasMany(Transaction, {
   as: "transactions",
   foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+User.hasMany(Review, {
+  as: "reviews",
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Review.belongsTo(User, {
+  as: "users",
+  foreignKey: "user_id",
+  targetKey: "id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
@@ -111,6 +129,66 @@ Order.belongsTo(Transaction, {
   onUpdate: "CASCADE",
 });
 
+Product.hasMany(Review, {
+  as: "reviews",
+  foreignKey: "product_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Review.belongsTo(Product, {
+  as: "product",
+  foreignKey: "product_id",
+  targetKey: "id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+User.hasMany(Chat, {
+  as: "chats",
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Chat.belongsTo(User, {
+  as: "users",
+  foreignKey: "user_id",
+  targetKey: "id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+User.hasMany(Listchat, {
+  as: "listchats",
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Listchat.belongsTo(User, {
+  as: "users",
+  foreignKey: "user_id",
+  targetKey: "id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Chat.hasMany(Listchat, {
+  as: "listchats",
+  foreignKey: "chat_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Listchat.belongsTo(Chat, {
+  as: "chats",
+  foreignKey: "chat_id",
+  targetKey: "id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
 module.exports = {
   sequelize,
   User,
@@ -119,4 +197,7 @@ module.exports = {
   Size,
   Order,
   Transaction,
+  Review,
+  Chat,
+  Listchat,
 };

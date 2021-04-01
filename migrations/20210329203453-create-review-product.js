@@ -1,10 +1,10 @@
 "use strict";
 
-const { DATE } = require("sequelize");
+const sequelize = require("sequelize");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Chats", {
+    return queryInterface.createTable("Reviews", {
       id: {
         type: Sequelize.UUID,
         default: Sequelize.UUIDV4,
@@ -19,16 +19,21 @@ module.exports = {
         onDeleted: "CASCADE",
         onUpdate: "CASCADE",
       },
-      receiver_id: {
-        type: Sequelize.STRING(50),
-        allownull: false,
+      product_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: "Products",
+          key: "id",
+        },
+        onDeleted: "CASCADE",
+        onUpdate: "CASCADE",
       },
-      chat: {
+      comment: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      status: {
-        type: Sequelize.STRING(25),
+      user_name: {
+        type: Sequelize.STRING(50),
         allowNull: false,
       },
       created_at: {
@@ -52,7 +57,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Chats");
+    return queryInterface.dropTable("Reviews");
     /**
      * Add reverting commands here.
      *

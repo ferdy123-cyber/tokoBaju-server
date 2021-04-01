@@ -10,6 +10,9 @@ const sizeRouter = require("./routes/size");
 const imgRouter = require("./routes/image");
 const orderRouter = require("./routes/order");
 const transactionRouter = require("./routes/transaction");
+const reviewRouter = require("./routes/review");
+const chatRouter = require("./routes/chat");
+const listchatRouter = require("./routes/listchat");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +28,9 @@ app.use("/size", sizeRouter);
 app.use("/image", imgRouter);
 app.use("/order", orderRouter);
 app.use("/transaction", transactionRouter);
+app.use("/review", reviewRouter);
+app.use("/chat", chatRouter);
+app.use("/listchat", listchatRouter);
 
 app.use((error, req, res, next) => {
   return res.status(400).send({
